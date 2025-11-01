@@ -103,15 +103,17 @@
             </p>
         </div>
 
-        <!-- Conteneur pour le défi actuel -->
+        <!-- Conteneur pour le défi actuel (maintenant dynamique) -->
         <div class="bg-white/5 border border-white/5 rounded-2xl p-8 min-h-[180px] flex flex-col justify-center items-center shadow-inner-lg">
             
-            <!-- POUR METTRE À JOUR : Modifiez le texte ci-dessous -->
-            <blockquote class="challenge-text text-3xl md:text-4xl font-semibold text-white leading-snug mb-4">
-                Cette semaine, refusez les pailles en plastique et optez pour une alternative réutilisable !
+            <!-- Le texte du défi sera inséré ici par JavaScript -->
+            <blockquote id="challenge-text" class="challenge-text text-3xl md:text-4xl font-semibold text-white leading-snug mb-4">
+                Chargement du défi...
             </blockquote>
-            <p class="text-md text-[var(--color-text-dim)] uppercase tracking-wider font-medium">
-                Semaine du 27 Octobre 2025
+            
+            <!-- La date sera insérée ici par JavaScript -->
+            <p id="challenge-date" class="text-md text-[var(--color-text-dim)] uppercase tracking-wider font-medium">
+                ...
             </p>
         </div>
 
@@ -220,6 +222,68 @@
         animate();
     </script>
 
+    <!-- NOUVEAU SCRIPT: Mise à jour dynamique du défi -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Configuration des défis ---
+            // Ajoutez autant de défis que vous voulez dans cette liste !
+            const weeklyChallenges = [
+                "Cette semaine, refusez les pailles en plastique et optez pour une alternative réutilisable !",
+                "Apportez votre propre tasse réutilisable pour votre café à emporter.",
+                "Passez aux brosses à dents en bambou ou à tête rechargeable.",
+                "Achetez en vrac en utilisant vos propres contenants pour réduire les emballages.",
+                "Remplacez les bouteilles d'eau en plastique par une gourde durable.",
+                "Essayez de faire un 'lundi sans viande' pour réduire votre empreinte carbone.",
+                "Utilisez des 'bee wraps' (emballages à la cire d'abeille) au lieu du film plastique.",
+                "Fabriquez votre propre produit ménager (ex: vinaigre blanc et eau).",
+                "Triez et compostez vos déchets organiques.",
+                "Privilégiez les achats de seconde main pour les vêtements ou les objets.",
+                "Refusez les prospectus et ajoutez un autocollant 'Stop Pub' sur votre boîte aux lettres.",
+                "Calculez votre empreinte carbone de la semaine et essayez de la réduire."
+            ];
+            // ---------------------------------
+
+            const challengeEl = document.getElementById('challenge-text');
+            const dateEl = document.getElementById('challenge-date');
+
+            if (challengeEl && dateEl) {
+                // 1. Obtenir la date d'aujourd'hui
+                const today = new Date();
+
+                // 2. Calculer le lundi de cette semaine
+                const monday = (function(d) {
+                    d = new Date(d);
+                    const day = d.getDay(),
+                        diff = d.getDate() - day + (day === 0 ? -6 : 1); // 0 = Dimanche
+                    return new Date(d.setDate(diff));
+                })(today);
+
+                // 3. Formater la date du lundi
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                const dateString = monday.toLocaleDateString('fr-FR', options);
+                dateEl.textContent = `Semaine du ${dateString}`;
+
+                // 4. Calculer le numéro de la semaine (pour un index stable)
+                const weekIndex = (function(d) {
+                    // Copie de la date pour éviter la mutation
+                    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+                    // Règle le jour au jeudi de la semaine actuelle
+                    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+                    // Date de début d'année
+                    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+                    // Calcul du numéro de semaine
+                    const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+                    return weekNo;
+                })(today);
+
+                // 5. Sélectionner le défi de la semaine
+                // L'opérateur Modulo (%) fait en sorte que la liste recommence au début
+                const challengeIndex = (weekIndex - 1) % weeklyChallenges.length; // -1 pour un index basé sur 0
+                challengeEl.textContent = weeklyChallenges[challengeIndex];
+            }
+        });
+    </script>
+
 </body>
 </html>
-
