@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta Theme Color pour unifier la barre de navigation sur mobile (Top 1% Touch) -->
+    <meta name="theme-color" content="#0F172A">
+    
     <title>Défi Zéro Déchet de la Semaine</title>
+    
+    <!-- Favicon "Eco-Nexus" ultra-moderne (SVG intégré Zero-Load) -->
+    <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="%230F172A"/><path d="M30 50C30 35 50 35 50 50C50 65 70 65 70 50C70 35 50 35 50 50C50 65 30 65 30 50Z" fill="none" stroke="url(%23grad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" stop-color="%232DD4BF"/><stop offset="100%25" stop-color="%2334D399"/></linearGradient></defs></svg>'>
+    <link rel="apple-touch-icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="%230F172A"/><path d="M30 50C30 35 50 35 50 50C50 65 70 65 70 50C70 35 50 35 50 50C50 65 30 65 30 50Z" fill="none" stroke="url(%23grad)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" stop-color="%232DD4BF"/><stop offset="100%25" stop-color="%2334D399"/></linearGradient></defs></svg>'>
+
     <!-- Chargement de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -218,8 +226,10 @@
         }
 
         // Lancement
-        init3D();
-        animate();
+        window.onload = function () {
+            init3D();
+            animate();
+        }
     </script>
 
     <!-- NOUVEAU SCRIPT: Mise à jour dynamique du défi -->
